@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1480656042 source:c:\users\cerw\desktop\chessaii\main.cpp
+	<iostream>
+	"chessAI.h"
+	<string>
+
+1480654831 source:c:\users\cerw\desktop\chessaii\chessai.cc
+	"chessAI.h"
+	<iostream>
+
+1480656069 c:\users\cerw\desktop\chessaii\chessai.h
+	<thread>
+	<vector>
+	<unordered_map>
+	<map>
+	<utility>
+	"vectors.h"
+	<memory>
+	<algorithm>
+	"vecFuncs.h"
+
+1480653146 c:\users\cerw\desktop\chessaii\vectors.h
+
+1480654406 c:\users\cerw\desktop\chessaii\vecfuncs.h
+	<vector>
+
