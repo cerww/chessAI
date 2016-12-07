@@ -51,6 +51,7 @@ struct chessB{
 		return 1;
 	}
 };
+
 inline bool operator ==(const chessB& one,const chessB& other){
 	return one.b==other.b;
 }
@@ -83,7 +84,7 @@ inline int Bpoints::operator[](int o){
 }
 struct boardNode{
 	boardNode(){};
-	chessB board;//128 bytes
+	chessB board;//64 bytes now
 	std::array<std::vector<std::pair<vector2<char>,vector2<char>> >,2 >  moveSpots;
 	std::array<std::vector<int>,2> edges;
 };

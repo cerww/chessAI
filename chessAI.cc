@@ -24,42 +24,42 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 	else if(p.n()==pieceName::PAWN){
 		if(p.c()==pieceColor::BLACK){
 			for(int x = 1;x<(spot.y==1?3:2);++x){
-				if(b.b[spot.x][spot.y+x].c()==pieceColor::NONE)
+				if(b.b[spot.x][spot.y+x].n()==pieceName::NONE)
 					moveSpots.emplace_back(spot.x,spot.y+x);
 				else break;
 			}
-			if(spot.x!=7)
-				if(b.b[spot.x+1][spot.y+1].c()==pieceColor::WHITE){
+			if(spot.x!=7){
+				if(b.b[spot.x+1][spot.y+1].c()==pieceColor::WHITE&&b.b[spot.x+1][spot.y+1].n()!=pieceName::NONE){
 					moveSpots.emplace_back(spot.x+1,(spot.y+1));
 					//board.board[spot.x+1].at(spot.y+1).k[this] = something();
-				}
-			if(spot.x!=0)
-				if(b.b[spot.x-1][spot.y+1].c()==pieceColor::WHITE){
+				}}
+			else if(spot.x!=0){
+				if(b.b[spot.x-1][spot.y+1].c()==pieceColor::WHITE&&b.b[spot.x-1][spot.y+1].n()!=pieceName::NONE){
 					moveSpots.emplace_back(spot.x-1,spot.y+1);
 					//board.board[spot.x-1].at(spot.y+1).k[this] = something();
-				}
+				}}
 		}
 		else {
 			for(int x = 1;x<(spot.y==6?3:2);++x){
-				if(b.b[spot.x][spot.y-x].c()==pieceColor::NONE)
+				if(b.b[spot.x][spot.y-x].n()==pieceName::NONE)
 					moveSpots.emplace_back(spot.x,spot.y-x);
 				else break;
 			}
-			if(spot.x!=7)
-				if(b.b[spot.x+1][spot.y-1].c()==pieceColor::BLACK){
+			if(spot.x!=7){
+				if(b.b[spot.x+1][spot.y-1].c()==pieceColor::BLACK&&b.b[spot.x+1][spot.y-1].n()!=pieceName::NONE){
 					moveSpots.emplace_back(spot.x+1,spot.y-1);
 					//board.board[spot.x+1].at(spot.y-1).k[this] = something();
-				}
-			if(spot.x!=0)
-				if(b.b[spot.x-1][spot.y-1].c()==pieceColor::BLACK){
+				}}
+			else if(spot.x!=0){
+				if(b.b[spot.x-1][spot.y-1].c()==pieceColor::BLACK&&b.b[spot.x-1][spot.y-1].n()!=pieceName::NONE){
 					moveSpots.emplace_back(spot.x-1,spot.y-1);
 					//board.board[spot.x-1].at(spot.y-1).k[this] = something();
-				}
+				}}
 		}
 	}//else if(p.n()==pieceName::BISHOP){}
 	else if(p.n()==pieceName::ROOK){
 		for(int x = spot.x+1;x<8;++x){
-			if(b.b[x][spot.y].c()==pieceColor::NONE)
+			if(b.b[x][spot.y].n()==pieceName::NONE)
 				//moveableSpots[x][spot.y]=1;
 				moveSpots.emplace_back(x,spot.y);
 			else if(b.b[x][spot.y].c()==p.c()){
@@ -70,7 +70,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 			}
 		}
 		for(int x = spot.x-1;x>=0;--x){
-			if(b.b[x][spot.y].c()==pieceColor::NONE)
+			if(b.b[x][spot.y].n()==pieceName::NONE)
 				moveSpots.emplace_back(x,spot.y);
 			else if(b.b[x][spot.y].c()==p.c()){
 				break;
@@ -80,7 +80,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 			}
 		}
 		for(int y = spot.y+1;y<8;++y){
-			if(b.b[spot.x][y].c()==pieceColor::NONE)
+			if(b.b[spot.x][y].n()==pieceName::NONE)
 				moveSpots.emplace_back(spot.x,y);
 			else if(b.b[spot.x][y].c()==p.c()){
 				break;
@@ -90,7 +90,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 			}
 		}
 		for(int y = spot.y-1;y>=0;--y){
-			if(b.b[spot.x][y].c()==pieceColor::NONE)
+			if(b.b[spot.x][y].n()==pieceName::NONE)
 				moveSpots.emplace_back(spot.x,y);
 			else if(b.b[spot.x][y].c()==p.c()){
 				break;
@@ -101,22 +101,22 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 		}
 	}
 	else if(p.n()==pieceName::HORSE){
-		if(spot.x<7&&spot.y>1&&b.b[spot.x+1][spot.y-2].c()!=p.c())moveSpots.emplace_back(spot.x+1,spot.y-2);
-		if(spot.x<7&&spot.y<6&&b.b[spot.x+1][spot.y+2].c()!=p.c())moveSpots.emplace_back(spot.x+1,spot.y+2);
+		if(spot.x<7&&spot.y>1&&(b.b[spot.x+1][spot.y-2].c()!=p.c()||b.b[spot.x+1][spot.y-2].n()==pieceName::NONE))moveSpots.emplace_back(spot.x+1,spot.y-2);
+		if(spot.x<7&&spot.y<6&&(b.b[spot.x+1][spot.y+2].c()!=p.c()||b.b[spot.x+1][spot.y+2].n()==pieceName::NONE))moveSpots.emplace_back(spot.x+1,spot.y+2);
 
-		if(spot.x>0&&spot.y>1&&b.b[spot.x-1][spot.y-2].c()!=p.c())moveSpots.emplace_back(spot.x-1,spot.y-2);
-		if(spot.x>0&&spot.y<6&&b.b[spot.x-1][spot.y+2].c()!=p.c())moveSpots.emplace_back(spot.x-1,spot.y+2);
+		if(spot.x>0&&spot.y>1&&(b.b[spot.x-1][spot.y-2].c()!=p.c()||b.b[spot.x-1][spot.y-2].n()==pieceName::NONE))moveSpots.emplace_back(spot.x-1,spot.y-2);
+		if(spot.x>0&&spot.y<6&&(b.b[spot.x-1][spot.y+2].c()!=p.c()||b.b[spot.x-1][spot.y+2].n()==pieceName::NONE))moveSpots.emplace_back(spot.x-1,spot.y+2);
 
-		if(spot.x<6&&spot.y>0&&b.b[spot.x+2][spot.y-1].c()!=p.c())moveSpots.emplace_back(spot.x+2,spot.y-1);
-		if(spot.x<6&&spot.y<7&&b.b[spot.x+2][spot.y+1].c()!=p.c())moveSpots.emplace_back(spot.x+2,spot.y+1);
+		if(spot.x<6&&spot.y>0&&(b.b[spot.x+2][spot.y-1].c()!=p.c()||b.b[spot.x+2][spot.y-1].n()==pieceName::NONE))moveSpots.emplace_back(spot.x+2,spot.y-1);
+		if(spot.x<6&&spot.y<7&&(b.b[spot.x+2][spot.y+1].c()!=p.c()||b.b[spot.x+2][spot.y+1].n()==pieceName::NONE))moveSpots.emplace_back(spot.x+2,spot.y+1);
 
-		if(spot.x>1&&spot.y>0&&b.b[spot.x-2][spot.y-1].c()!=p.c())moveSpots.emplace_back(spot.x-2,spot.y-1);
-		if(spot.x>1&&spot.y<7&&b.b[spot.x-2][spot.y+1].c()!=p.c())moveSpots.emplace_back(spot.x-2,spot.y+1);
+		if(spot.x>1&&spot.y>0&&(b.b[spot.x-2][spot.y-1].c()!=p.c()||b.b[spot.x-2][spot.y-1].n()==pieceName::NONE))moveSpots.emplace_back(spot.x-2,spot.y-1);
+		if(spot.x>1&&spot.y<7&&(b.b[spot.x-2][spot.y+1].c()!=p.c()||b.b[spot.x-2][spot.y+1].n()==pieceName::NONE))moveSpots.emplace_back(spot.x-2,spot.y+1);
 	}
 	else if(p.n()==pieceName::BISHOP){
 		//+x +y
 		for(int c = 1;c+spot.x<8&&c+spot.y<8;++c){
-			if(b.b[c+spot.x][c+spot.y].c()==pieceColor::NONE){
+			if(b.b[c+spot.x][c+spot.y].n()==pieceName::NONE){
 				moveSpots.emplace_back(c+spot.x,c+spot.y);
 				continue;
 			}
@@ -129,7 +129,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 		}
 		//-x -y
 		for(int c = 1;spot.x-c>=0&&spot.y-c>=0;++c){
-			if(b.b[spot.x-c][spot.y-c].c()==pieceColor::NONE){
+			if(b.b[spot.x-c][spot.y-c].n()==pieceName::NONE){
 				moveSpots.emplace_back(spot.x-c,spot.y-c);
 				continue;
 			}
@@ -142,7 +142,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 		}
 		//+x -y
 		for(int c = 1;spot.x+c<8&&spot.y-c>=0;++c){
-			if(b.b[spot.x+c][spot.y-c].c()==pieceColor::NONE){
+			if(b.b[spot.x+c][spot.y-c].n()==pieceName::NONE){
 				moveSpots.emplace_back(spot.x+c,spot.y-c);
 				continue;
 			}
@@ -155,7 +155,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 		}
 		//-x +y
 		for(int c = 1;spot.x-c>=0&&spot.y+c<8;++c){
-			if(b.b[spot.x-c][spot.y+c].c()==pieceColor::NONE){
+			if(b.b[spot.x-c][spot.y+c].n()==pieceName::NONE){
 				moveSpots.emplace_back(spot.x-c,spot.y+c);
 				continue;
 			}
@@ -169,7 +169,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 	}//4,0
 	else if(p.n()==pieceName::QUEEN){
 		for(int c = 1;c+spot.x<8&&c+spot.y<8;++c){
-			if(b.b[c+spot.x][c+spot.y].c()==pieceColor::NONE){
+			if(b.b[c+spot.x][c+spot.y].n()==pieceName::NONE){
 				moveSpots.emplace_back(c+spot.x,c+spot.y);
 				continue;
 			}
@@ -183,7 +183,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 		}
 		//-x -y
 		for(int c = 1;spot.x-c>=0&&spot.y-c>=0;++c){
-			if(b.b[spot.x-c][spot.y-c].c()==pieceColor::NONE){
+			if(b.b[spot.x-c][spot.y-c].n()==pieceName::NONE){
 				moveSpots.emplace_back(spot.x-c,spot.y-c);
 				continue;
 			}
@@ -196,7 +196,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 		}
 		//+x -y
 		for(int c = 1;spot.x+c<8&&spot.y-c>=0;++c){
-			if(b.b[spot.x+c][spot.y-c].c()==pieceColor::NONE){
+			if(b.b[spot.x+c][spot.y-c].n()==pieceName::NONE){
 				moveSpots.emplace_back(spot.x+c,spot.y-c);
 				continue;
 			}
@@ -209,7 +209,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 		}
 		//-x +y
 		for(int c = 1;spot.x-c>=0&&spot.y+c<8;++c){
-			if(b.b[spot.x-c][spot.y+c].c()==pieceColor::NONE){
+			if(b.b[spot.x-c][spot.y+c].n()==pieceName::NONE){
 				moveSpots.emplace_back(spot.x-c,spot.y+c);
 				continue;
 			}
@@ -222,7 +222,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 		}
 		//rook part
 		for(int x = spot.x+1;x<8;++x){
-			if(b.b[x][spot.y].c()==pieceColor::NONE)
+			if(b.b[x][spot.y].n()==pieceName::NONE)
 				//moveableSpots[x][spot.y]=1;
 				moveSpots.emplace_back(x,spot.y);
 			else if(b.b[x][spot.y].c()==p.c()){
@@ -233,7 +233,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 			}
 		}
 		for(int x = spot.x-1;x>=0;--x){
-			if(b.b[x][spot.y].c()==pieceColor::NONE)
+			if(b.b[x][spot.y].n()==pieceName::NONE)
 				moveSpots.emplace_back(x,spot.y);
 			else if(b.b[x][spot.y].c()==p.c()){
 				break;
@@ -243,7 +243,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 			}
 		}
 		for(int y = spot.y+1;y<8;++y){
-			if(b.b[spot.x][y].c()==pieceColor::NONE)
+			if(b.b[spot.x][y].n()==pieceName::NONE)
 				moveSpots.emplace_back(spot.x,y);
 			else if(b.b[spot.x][y].c()==p.c()){
 				break;
@@ -253,7 +253,7 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 			}
 		}
 		for(int y = spot.y-1;y>=0;--y){
-			if(b.b[spot.x][y].c()==pieceColor::NONE)
+			if(b.b[spot.x][y].n()==pieceName::NONE)
 				moveSpots.emplace_back(spot.x,y);
 			else if(b.b[spot.x][y].c()==p.c()){
 				break;
@@ -265,23 +265,23 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 	}
 	else if(p.n()==pieceName::KING){
 		if(spot.x!=7){
-			if(spot.y!=7&&b.b[spot.x+1][spot.y+1].c()!=p.c())
+			if(spot.y!=7&&(b.b[spot.x+1][spot.y+1].c()!=p.c()||b.b[spot.x+1][spot.y+1].n()==pieceName::NONE))
 				moveSpots.emplace_back(spot.x+1,spot.y+1);
-            if(b.b[spot.x+1][spot.y].c()!=p.c())
+            if((b.b[spot.x+1][spot.y].c()!=p.c()||b.b[spot.x+1][spot.y].n()==pieceName::NONE))
                 moveSpots.emplace_back(spot.x+1,spot.y  );
-			if(spot.y!=0&&b.b[spot.x+1][spot.y-1].c()!=p.c())
+			if(spot.y!=0&&(b.b[spot.x+1][spot.y-1].c()!=p.c()||b.b[spot.x+1][spot.y-1].n()==pieceName::NONE))
 				moveSpots.emplace_back(spot.x+1,spot.y-1);
 		}
 		if(spot.x!=0){
-			if(spot.y!=7&&b.b[spot.x-1][spot.y+1].c()!=p.c())
+			if(spot.y!=7&&(b.b[spot.x-1][spot.y+1].c()!=p.c()||b.b[spot.x-1][spot.y+1].n()==pieceName::NONE))
 				moveSpots.emplace_back(spot.x-1,spot.y+1);
-            if(b.b[spot.x-1][spot.y].c()!=p.c())
+            if(b.b[spot.x-1][spot.y].c()!=p.c()||b.b[spot.x-1][spot.y].n()==pieceName::NONE)
                 moveSpots.emplace_back(spot.x-1,spot.y+0);
-			if(spot.y!=0&&b.b[spot.x-1][spot.y-1].c()!=p.c())
+			if(spot.y!=0&&(b.b[spot.x-1][spot.y-1].c()!=p.c()||b.b[spot.x-1][spot.y-1].n()==pieceName::NONE))
 				moveSpots.emplace_back(spot.x-1,spot.y-1);
-		}if(spot.y!=7&&b.b[spot.x][spot.y+1].c()!=p.c())
+		}if(spot.y!=7&&(b.b[spot.x][spot.y+1].c()!=p.c()||b.b[spot.x][spot.y+1].n()==pieceName::NONE))
 			moveSpots.emplace_back(spot.x  ,spot.y+1);
-		if(spot.y!=0&&b.b[spot.x][spot.y-1].c()!=p.c())
+		if(spot.y!=0&&(b.b[spot.x][spot.y-1].c()!=p.c()||b.b[spot.x][spot.y-1].n()==pieceName::NONE))
 			moveSpots.emplace_back(spot.x  ,spot.y-1);
 	}
 	//chessAI::thingy1[b][p] = moveSpots;
@@ -347,9 +347,9 @@ boardNode makeNode2(const chessB& b){
 	re.moveSpots=n;
 	re.board = b;
 
-    chessAI::dp[re]=chessAI::numNodes;
+    //chessAI::dp[re]=chessAI::numNodes;
 	//chessAI::dp2[chessAI::numNodes]=re;
-	//chessAI::thingy1[b]=chessAI::numNodes;
+	thingy1[b]=re;//chessAI::numNodes;
 	//++chessAI::numNodes;
 	return re;
 }
@@ -512,10 +512,12 @@ std::pair<vector2<char>,vector2<char> > getThingy(const int& root){
 		workk[i].join();
 	}
 	if(!a) return std::pair<vector2<char>,vector2<char>>(vector2<char>(0,0),vector2<char>(0,0));
-
+    for(auto& i:vecs){
+        std::cout<<i<<std::endl;
+    }
 	int highestIndex = 1;
 	for(int x = 1;x<a;++x){
-		if(vecs[x]>=vecs[highestIndex])
+		if(vecs[x]>vecs[highestIndex])
 			highestIndex=x;
 	}return lol.moveSpots[0][highestIndex];
 }
@@ -556,11 +558,11 @@ void getFullTree(const int& c){
 			char i = level%2;
 			//for(auto& x:current->moveSpots[i]){
 			current->edges[i].resize(current->moveSpots[i].size());
-            chessB k = current->board;
-			for(unsigned m = 0;m<current->moveSpots[i].size();++m){
 
-                Cpiece one = current->board.b[current->moveSpots[i][m].first.x][current->moveSpots[i][m].first.y];
-                Cpiece two = current->board.b[current->moveSpots[i][m].second.x][current->moveSpots[i][m].second.y];
+			for(unsigned m = 0;m<current->moveSpots[i].size();++m){
+                chessB k = current->board;
+                //Cpiece one = current->board.b[current->moveSpots[i][m].first.x][current->moveSpots[i][m].first.y];
+                //Cpiece two = current->board.b[current->moveSpots[i][m].second.x][current->moveSpots[i][m].second.y];
 				spotMove(current->moveSpots[i][m],k);
 				int newNodeSpot = makeNode(k);
 				current->edges[i][m]=newNodeSpot;
@@ -568,8 +570,8 @@ void getFullTree(const int& c){
 					levels[i][newNodeSpot] = level;
 					next.push_back(newNodeSpot);
 				}
-				k.b[current->moveSpots[i][m].first.x][current->moveSpots[i][m].first.y]=one;
-				k.b[current->moveSpots[i][m].second.x][current->moveSpots[i][m].second.y] = two;
+				//k.b[current->moveSpots[i][m].first.x][current->moveSpots[i][m].first.y]=one;
+				//k.b[current->moveSpots[i][m].second.x][current->moveSpots[i][m].second.y] = two;
             }
 			//}//fix #1,generate only nessaccary boards,should not be 60 moves
 		}++level;
@@ -621,8 +623,8 @@ void chessAI::run(const chessB b,std::pair<vector2<char>,vector2<char>>* toDoMov
     //getFullTree(c);
 	//treeThingy(chessAI::dp[c]);
 	//now have bottom of tree
-	//*toDoMove = getThingy(c);
-	*toDoMove = getThingy2(b);
+	*toDoMove = getThingy(c);
+	//*toDoMove = getThingy2(b);
 
 	chessAI::done = 1;
 
