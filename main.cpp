@@ -28,7 +28,9 @@ int main(){
 	b.b[5][7] = Cpiece(pieceName::BISHOP,pieceColor::WHITE);
 	b.b[6][7] = Cpiece(pieceName::HORSE,pieceColor::WHITE);
 	b.b[7][7] = Cpiece(pieceName::ROOK,pieceColor::WHITE);
+	//std::cout<<sizeof (chessB)<<std::endl;
 	chessAI::run(b,&a);
+	std::cout<<(int)a.first.x<<" "<<(int)a.first.y<<"\n"<<(int)a.second.x<<" "<<(int)a.second.y<<std::endl;
     return 0;
 }
 

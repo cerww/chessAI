@@ -1,14 +1,15 @@
 # depslib dependency file v1.0
-1480656042 source:c:\users\cerw\desktop\chessaii\main.cpp
+1480922351 source:c:\users\cerw\desktop\chessaii\main.cpp
 	<iostream>
 	"chessAI.h"
 	<string>
 
-1480654831 source:c:\users\cerw\desktop\chessaii\chessai.cc
+1480991773 source:c:\users\cerw\desktop\chessaii\chessai.cc
 	"chessAI.h"
 	<iostream>
+	<deque>
 
-1480656069 c:\users\cerw\desktop\chessaii\chessai.h
+1480992040 c:\users\cerw\desktop\chessaii\chessai.h
 	<thread>
 	<vector>
 	<unordered_map>
@@ -23,4 +24,13 @@
 
 1480654406 c:\users\cerw\desktop\chessaii\vecfuncs.h
 	<vector>
+
+1480653137 c:\users\cerw\desktop\chessaii\chesspiece.h
+	<memory>
+	<iostream>
+	<vector>
+	<unordered_map>
+	<array>
+	"vecFuncs.h"
+	"vectors.h"
 

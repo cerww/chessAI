@@ -16,13 +16,15 @@ enum class pieceColor:char{WHITE,BLACK,NONE};
 enum class pieceName:char{PAWN,ROOK,BISHOP,QUEEN,KING,HORSE,NONE};/**/
 //000 000 00
 struct Cpiece{
-	Cpiece(){};//:n((pieceName)0),c((pieceColor)0){};
-	Cpiece(pieceName k,pieceColor l):all((unsigned char)l|((unsigned char)k<<2)){}//:n(k),c(l){};
-	//pieceName n;
-	unsigned char all;
-    pieceName n()const {return (pieceName)(all>>2);};
-    pieceColor c()const {return (pieceColor)(all%4);};
-	//pieceColor c;
+	//Cpiece(){};//:n((pieceName)0),c((pieceColor)0){};
+	Cpiece():n((pieceName)0),c((pieceColor)0){};
+	//Cpiece(pieceName k,pieceColor l):all((unsigned char)l&((unsigned char)k<<2)){}//:n(k),c(l){};
+	Cpiece(pieceName k,pieceColor l):n(k),c(l){};
+	pieceName n;
+	//unsigned char all;
+    //pieceName n(){return (pieceName)(all%4);};
+    //pieceColor c(){return (pieceColor)(all>>2);};
+	pieceColor c;
 	//char pieceAndName;
 	//vector2<int> spot;
 };
@@ -45,7 +47,7 @@ struct chessB{
 	std::array<std::array<Cpiece,8>,8 > b;
 	//std::vector<std::vector<Cpiece> > b;
 	//std::arr<std::vector<Cpiece> > b;
-	bool operator<(const chessB& other) const {
+	bool operator<(const chessB& other){
 		//return (int)n+(int)c*10+spot.x*100+spot.y*1000>(int)other.n+(int)other.c*10+spot.x*100+spot.y*1000;
 		//return b<other.b;
 		return 1;
@@ -64,8 +66,8 @@ namespace std{
 				k.resize(128);
                 for(int x = 0;x<8;++x)
 					for(int y = 0;y<8;++y){
-						k[(x*8)+y]=((char)(a.b[x][y].n()))+65;
-						k[(x*8)+y+64]=((char)a.b[x][y].c())+65;
+						k.at((x*8)+y)=((char)(a.b[x][y].n()))+65;
+						k.at((x*8)+y+64)=((char)a.b[x][y].c())+65;
 					}
 				//return hash<vector<unsigned int> >()(k);
 				return hash<string>()(k);
@@ -106,7 +108,7 @@ class chessAI{
 		//static std::unordered_map<boardNode,int> dp3;
 		static std::unordered_map<int,boardNode> dp2;//half nodes, i should fix this
 		//static std::unordered_map<int,boardNode> dp4;
-		static std::unordered_map<chessB,int> thingy1;
+		static std::unordered_map<chessB,boardNode> thingy1;
 		//static std::unordered_map<boardNode,int> thingy2;
 		static int numNodes;
 		static int done;

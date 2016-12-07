@@ -10,8 +10,9 @@
 				<Option output="bin/Debug/chessAII" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="copy_of_gnu_gcc_compiler" />
 				<Compiler>
+					<Add option="-std=c++11" />
 					<Add option="-g" />
 				</Compiler>
 			</Target>
@@ -19,20 +20,24 @@
 				<Option output="bin/Release/chessAII" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="gcc" />
+				<Option compiler="copy_of_gnu_gcc_compiler" />
 				<Compiler>
-					<Add option="-O2" />
+					<Add option="-fomit-frame-pointer" />
+					<Add option="-fexpensive-optimizations" />
+					<Add option="-O3" />
+					<Add option="-std=c++11" />
 				</Compiler>
-				<Linker>
-					<Add option="-s" />
-				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="chessAI.cc" />
+		<Unit filename="chessAI.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="vecFuncs.h" />
+		<Unit filename="vectors.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
