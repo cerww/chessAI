@@ -102,15 +102,26 @@ namespace std{
 };
 class chessAI{
 	public:
-		static void run(const chessB b,std::pair<vector2<char>,vector2<char>>* toDoMove);
-		static std::unordered_map<boardNode,int> dp;//half nodes, i should fix this
-		//static std::unordered_map<boardNode,int> dp3;
-		static std::unordered_map<int,boardNode> dp2;//half nodes, i should fix this
+		 void run(const chessB b,std::pair<vector2<char>,vector2<char>>* toDoMove);
+		 std::unordered_map<boardNode,int> dp;
+		 std::unordered_map<int,boardNode> dp2;//half nodes, i should fix this
 		//static std::unordered_map<int,boardNode> dp4;
-		static std::unordered_map<chessB,int> thingy1;
+		 std::unordered_map<chessB,int> thingy1;
 		//static std::unordered_map<boardNode,int> thingy2;
-		static int numNodes;
-		static int done;
+		 int numNodes;
+		 int done;
+		 std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<char> spot);
+		 int makeNode(const chessB& b);
+		 boardNode makeNode2(const chessB& b);
+		 void spotMove(const std::pair<vector2<char>,vector2<char>>& move,chessB& board);
+		 vector2<short> getP(const boardNode& board);
+		 short traverseTree(int node,int turns,std::map<int,std::vector<std::vector<short> > >* visited);
+		 short traverseTree2(const chessB& b,int turns,std::unordered_map<chessB,std::vector<std::vector<short> > >* visited);
+		 std::pair<vector2<char>,vector2<char> > getThingy(const int& root);
+		 std::pair<vector2<char>,vector2<char> > getThingy2(const chessB& c);
+		 void getFullTree(const int& c);
+		 vector2<short> getP2(const boardNode& board);
+		 void treeThingy(int root);
 		//static std::map<std::vector<std::vector<Cpiece> >,boardNode> thingy1;
 		//static std::map<chessB,std::map<Cpiece,std::vector<vector2<int>> > > thingy1;
 };

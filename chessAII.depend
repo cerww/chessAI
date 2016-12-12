@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1481090904 source:c:\users\cerw\desktop\chessaii\main.cpp
+1481503165 source:c:\users\cerw\desktop\chessaii\main.cpp
 	<iostream>
 	"chessAI.h"
 	<string>
@@ -9,7 +9,7 @@
 	<iostream>
 	<deque>
 
-1481089990 c:\users\cerw\desktop\chessaii\chessai.h
+1481503469 c:\users\cerw\desktop\chessaii\chessai.h
 	<thread>
 	<vector>
 	<unordered_map>

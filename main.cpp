@@ -31,7 +31,9 @@ int main(){
 	//b.b[5][6] = Cpiece(pieceName::NONE,pieceColor::NONE);
     //b.b[5][4] = Cpiece(pieceName::PAWN,pieceColor::WHITE);
 	//std::cout<<sizeof (chessB)<<std::endl;
-	chessAI::run(b,&a);
+	//chessAI::run(b,&a);
+	chessAI ai;
+	ai.run(b,&a);
 	std::cout<<(int)a.first.x<<" "<<(int)a.first.y<<"\n"<<(int)a.second.x<<" "<<(int)a.second.y<<std::endl;
     return 0;
 }

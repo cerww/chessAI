@@ -8,6 +8,7 @@
 #define TURNSY 4
 #define TEST_START std::cout<<"b"<<std::endl;
 #define TEST_END std::cout<<"a"<<std::endl;
+/*
 int chessAI::done = 0;
 std::unordered_map<chessB,int> chessAI::thingy1;
 //std::unordered_map<boardNode,int> chessAI::thingy2;
@@ -15,10 +16,9 @@ std::unordered_map<boardNode,int> chessAI::dp;
 std::unordered_map<int,boardNode> chessAI::dp2;
 //std::unordered_map<boardNode,int> chessAI::dp3;
 //std::unordered_map<int,boardNode> chessAI::dp4;
-int chessAI::numNodes = 0;
-void getFullTree(const int& c);
+int chessAI::numNodes = 0;*/
 //static std::unordered_map<chessB,boardNode> thingy1;
-std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<char> spot){
+std::vector<vector2<char>> chessAI::getMoveSpots(const chessB& b,const Cpiece& p,vector2<char> spot){
 	std::vector<vector2<char> > moveSpots;
 	if(p.n() == pieceName::NONE){return moveSpots;}
 	else if(p.n()==pieceName::PAWN){
@@ -288,9 +288,9 @@ std::vector<vector2<char>> getMoveSpots(const chessB& b,const Cpiece& p,vector2<
 	return moveSpots;
 }
 
-int makeNode(const chessB& b){
-	if(chessAI::thingy1.find(b)!=chessAI::thingy1.end())
-		return chessAI::thingy1[b];
+int chessAI::makeNode(const chessB& b){
+	if(thingy1.find(b)!=thingy1.end())
+		return thingy1[b];
 	boardNode re;
 	//std::pair<std::vector<std::pair<vector2<char>,vector2<char>> >,std::vector<std::pair<vector2<char>,vector2<char>> > >n;
 	std::array<std::vector<std::pair<vector2<char>,vector2<char>> >,2> n;
@@ -314,13 +314,13 @@ int makeNode(const chessB& b){
 	re.moveSpots=n;
 	re.board = b;
 
-    chessAI::dp[re]=chessAI::numNodes;
-	chessAI::dp2[chessAI::numNodes]=re;
-	chessAI::thingy1[b]=chessAI::numNodes;
-	++chessAI::numNodes;
-	return chessAI::numNodes-1;
+    dp[re]=chessAI::numNodes;
+	dp2[chessAI::numNodes]=re;
+	thingy1[b]=chessAI::numNodes;
+	++numNodes;
+	return numNodes-1;
 }
-boardNode makeNode2(const chessB& b){
+boardNode chessAI::makeNode2(const chessB& b){
     static std::unordered_map<chessB,boardNode> thingy1;
 	if(thingy1.find(b)!=thingy1.end())
 		return thingy1[b];
@@ -353,7 +353,7 @@ boardNode makeNode2(const chessB& b){
 	//++chessAI::numNodes;
 	return re;
 }
-void spotMove(const std::pair<vector2<char>,vector2<char>>& move,chessB& board){
+void chessAI::spotMove(const std::pair<vector2<char>,vector2<char>>& move,chessB& board){
 	//std::cout<<(int)move.first.x<<" "<<(int)move.first.y<<std::endl<<(int)move.second.x<<" "<<(int)move.second.y<<std::endl<<"\n";
 	board.b[(int)move.second.x][(int)move.second.y] = std::move(board.b[(int)move.first.x][(int)move.first.y]);
 	board.b[(int)move.first.x][(int)move.first.y] = Cpiece(pieceName::NONE,pieceColor::NONE);
@@ -392,9 +392,9 @@ short getPieceValue(pieceName p){
 	if(p==pieceName::KING) return 10000;/* */
 	return 0;
 }
-vector2<short> getP(const boardNode& board){//can be made better
+vector2<short> chessAI::getP(const boardNode& board){//can be made better
 	static std::unordered_map<int,vector2<short>> cache;
-	if(cache.find(chessAI::dp[board])!=cache.end()) return cache[chessAI::dp[board]];
+	if(cache.find(dp[board])!=cache.end()) return cache[dp[board]];
 	vector2<short> p(0,0);
 	for(int x = 0;x<8;++x){
 		for(int y = 0;y<8;++y){
@@ -405,10 +405,10 @@ vector2<short> getP(const boardNode& board){//can be made better
 			}else p.y+=	getPieceValue(board.board.b[x][y].n());//((std::map<pieceName,int>){{pieceName::KING,1000000},{pieceName::QUEEN,50},{pieceName::ROOK,20},{pieceName::BISHOP,10},{pieceName::HORSE,11},{pieceName::PAWN,2}})[board.b[x][y].n];
 			//}else p.y+=	((std::map<pieceName,short>){{pieceName::KING,10000},{pieceName::QUEEN,50},{pieceName::ROOK,20},{pieceName::BISHOP,10},{pieceName::HORSE,11},{pieceName::PAWN,2}})[board.board.b[x][y].n()];
 		}
-	}cache[chessAI::dp[board]]=p;
+	}cache[dp[board]]=p;
 	return p;
 }
-vector2<short> getP2(const boardNode& board){//can be made better
+vector2<short> chessAI::getP2(const boardNode& board){//can be made better
 	static std::unordered_map<boardNode,vector2<short>> cache;
 	if(cache.find(board)!=cache.end()) return cache[board];
 	vector2<short> p(0,0);
@@ -424,7 +424,7 @@ vector2<short> getP2(const boardNode& board){//can be made better
 	}cache[board]=p;
 	return p;
 }
-short traverseTree(int node,int turns,std::map<int,std::vector<std::vector<short> > >* visited){//inefficient
+short chessAI::traverseTree(int node,int turns,std::map<int,std::vector<std::vector<short> > >* visited){//inefficient
 	if(visited->find(node)!=visited->end()){
 		const std::vector<short> vals = (*visited)[node][turns];
 		if(vals[0]!=30000){
@@ -448,7 +448,7 @@ short traverseTree(int node,int turns,std::map<int,std::vector<std::vector<short
 	if(turns%2==1) return vecMin(vals);
 	return vecMax(vals);
 }
-short traverseTree2(const chessB& b,int turns,std::unordered_map<chessB,std::vector<std::vector<short> > >* visited){//inefficient
+short chessAI::traverseTree2(const chessB& b,int turns,std::unordered_map<chessB,std::vector<std::vector<short> > >* visited){//inefficient
 
 	if(visited->find(b)!=visited->end()){
 		const std::vector<short> vals = (*visited)[b][turns];
@@ -467,13 +467,13 @@ short traverseTree2(const chessB& b,int turns,std::unordered_map<chessB,std::vec
 	}chessB newB = b;
 	for(unsigned x= 0;x<vals.size();++x){
 		//std::cout<<"before"<<std::endl;
-		//chessB newB = b;
-        Cpiece one = newB.b[nodey.moveSpots[turns%2][x].first.x][nodey.moveSpots[turns%2][x].first.y];
-        Cpiece two = newB.b[nodey.moveSpots[turns%2][x].second.x][nodey.moveSpots[turns%2][x].second.y];
+		chessB newB = b;
+        //Cpiece one = newB.b[nodey.moveSpots[turns%2][x].first.x][nodey.moveSpots[turns%2][x].first.y];
+        //Cpiece two = newB.b[nodey.moveSpots[turns%2][x].second.x][nodey.moveSpots[turns%2][x].second.y];
         spotMove(nodey.moveSpots[turns%2][x],newB);
 		vals[x] = traverseTree2(newB,turns+1,visited);//getPdiff(getP(chessAI::dp[nodey->edges[x]]));
-        newB.b[nodey.moveSpots[turns%2][x].first.x][nodey.moveSpots[turns%2][x].first.y]=one;
-		newB.b[nodey.moveSpots[turns%2][x].second.x][nodey.moveSpots[turns%2][x].second.y] = two;
+        //newB.b[nodey.moveSpots[turns%2][x].first.x][nodey.moveSpots[turns%2][x].first.y]=one;
+		//newB.b[nodey.moveSpots[turns%2][x].second.x][nodey.moveSpots[turns%2][x].second.y] = two;
 		//std::cout<<"after"<<std::endl;
 	}
 
@@ -486,10 +486,10 @@ short traverseTree2(const chessB& b,int turns,std::unordered_map<chessB,std::vec
 }
 void abc(const std::vector<int>* o,std::vector<int>* k,int start,int end,std::map<int,std::vector<std::vector<short> > >* visited){
 	for(int x = start;x<end;++x){
-		(*k)[x]=traverseTree((*o)[x],1,visited);
+		//(*k)[x]=traverseTree((*o)[x],1,visited);
 	}
 }
-std::pair<vector2<char>,vector2<char> > getThingy(const int& root){
+std::pair<vector2<char>,vector2<char> > chessAI::getThingy(const int& root){
 	//int root = chessAI::dp[c];
 	getFullTree(root);
 	std::vector<int> q(1,root);
@@ -521,7 +521,7 @@ std::pair<vector2<char>,vector2<char> > getThingy(const int& root){
 			highestIndex=x;
 	}return lol.moveSpots[0][highestIndex];
 }
-std::pair<vector2<char>,vector2<char> > getThingy2(const chessB& c){
+std::pair<vector2<char>,vector2<char> > chessAI::getThingy2(const chessB& c){
     auto lol = makeNode2(c);
     std::vector<short> vecs(lol.moveSpots[0].size());
     std::unordered_map<chessB,std::vector<std::vector<short> > > visited;
@@ -539,7 +539,7 @@ std::pair<vector2<char>,vector2<char> > getThingy2(const chessB& c){
 	}return lol.moveSpots[0][highestIndex];
 }
 
-void getFullTree(const int& c){
+void chessAI::getFullTree(const int& c){
 	std::array<std::map<int,char>,2> levels;
 	char level = 0;
 	std::vector<int> que(1,c);
@@ -549,7 +549,7 @@ void getFullTree(const int& c){
 		std::vector<int> next;
 		for(auto& currenta:que){
             //std::cout<<"abc"<<std::endl;
-            auto current = &chessAI::dp2[currenta];
+            auto current = &dp2[currenta];
 			auto qwe = getP(*current);
 			if(qwe.x+qwe.y<12000){
 				current->moveSpots[0].clear();
@@ -580,7 +580,7 @@ void getFullTree(const int& c){
 		std::cout<<"next level"<<std::endl;
 	}
 }
-void treeThingy(int root){
+void chessAI::treeThingy(int root){
 	int level =0;
 	std::array<std::map<int,int>,2> levels;
 	std::vector<int> que(1,root);
